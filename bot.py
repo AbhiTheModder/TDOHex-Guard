@@ -11,6 +11,14 @@ LOG_CHANNEL = int(os.getenv("LOG_CHANNEL"))
 
 app = Client("limitbreaker_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+@app.on_message(filters.command("start"))
+async def start(bot: Client, msg: Message):
+    await msg.reply_text("Hello, I'm a bot!")
+
+@app.on_message(filters.command("help"))
+async def help(bot: Client, msg: Message):
+    await msg.reply_text("Simply add the bot to the group with atleast delete and post text permissions.")
+
 @app.on_message(filters.group & filters.text)
 async def filter_messages(client, message):
     # Get the list of banned words
