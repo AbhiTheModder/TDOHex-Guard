@@ -11,11 +11,11 @@ LOG_CHANNEL = int(os.getenv("LOG_CHANNEL"))
 
 app = Client("limitbreaker_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-@app.on_message(filters.command("start"))
+@app.on_message(filters.command("start") & filters.private)
 async def start(bot: Client, msg: Message):
     await msg.reply_text("Hello, I'm a bot!")
 
-@app.on_message(filters.command("help"))
+@app.on_message(filters.command("help") & filters.private)
 async def help(bot: Client, msg: Message):
     await msg.reply_text("Simply add the bot to the group with atleast delete and post text permissions.")
 
