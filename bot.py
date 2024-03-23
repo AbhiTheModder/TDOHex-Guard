@@ -1,12 +1,13 @@
+import os
 import asyncio
 
 from pyrogram import Client, errors, types, enums, filters
 from pyrogram.types import Message
 
-API_ID = api_id
-API_HASH = "api_hash"
-BOT_TOKEN = "bot_token"
-LOG_CHANNEL = log_id
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+LOG_CHANNEL = int(os.getenv("LOG_CHANNEL"))
 
 app = Client("limitbreaker_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
