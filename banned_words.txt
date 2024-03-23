@@ -1260,8 +1260,5 @@ USDT
 recharge
 withdraw
 income
-100% profit
 collectmoney
-Registration link
-trusted owner
 payment
