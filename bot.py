@@ -52,30 +52,38 @@ async def help(bot: Client, msg: Message):
 @app.on_message(filters.group & filters.text)
 async def filter_messages(client, message):
     # Get the list of banned words
-    banned_words_file = "banned_words.txt"
+    # TODO: Word List needs careful testings
+    # For example sending `original.apks`
+    # In group resulted to message deletion due to a match on 'gin'
+    # We have to analyse each line words in our blocklist with every perpective
 
-    # Read the banned words from the file
-    with open(banned_words_file, "r") as f:
-        banned_words = f.read().splitlines()
 
-    # Check if the message contains any banned words
-    for word in banned_words:
-        if word in message.text.lower():
-            # Delete the message
-            if LOG_CHANNEL is not None:
-                await client.send_message(
-                    chat_id=int(LOG_CHANNEL),
-                    text=f"User {message.from_user.mention} with id `{message.from_user.id}` sent a message containing a banned word or a link which seems to be fraudulant and their message has been deleted in the group. Below is the message which he/she sent.",
-                )
-                await message.forward(chat_id=LOG_CHANNEL)
-            await message.delete()
-            warn_message = await app.send_message(
-                message.chat.id,
-                f"**WARNING:** User {message.from_user.mention} sent a message containing a banned word or a link which seems to be fraudulant and their message has been deleted.\n\n__This message will be deleted in 5s__",
-            )
-            await asyncio.sleep(5)
-            await warn_message.delete()
-            break
+
+    # banned_words_file = "banned_words.txt"
+
+    # # Read the banned words from the file
+    # with open(banned_words_file, "r") as f:
+    #     banned_words = f.read().splitlines()
+
+    # # Check if the message contains any banned words
+    # for word in banned_words:
+    #     if word in message.text.lower():
+    #         # Delete the message
+    #         if LOG_CHANNEL is not None:
+    #             await client.send_message(
+    #                 chat_id=int(LOG_CHANNEL),
+    #                 text=f"User {message.from_user.mention} with id `{message.from_user.id}` sent a message containing a banned word (triggered word: {word}) or a link which seems to be fraudulant and their message has been deleted in the group. Below is the message which he/she sent.",
+    #             )
+    #             await message.forward(chat_id=LOG_CHANNEL)
+    #         await message.delete()
+    #         warn_message = await app.send_message(
+    #             message.chat.id,
+    #             f"**WARNING:** User {message.from_user.mention} sent a message containing a banned word or a link which seems to be fraudulant and their message has been deleted.\n\n__This message will be deleted in 5s__",
+    #         )
+    #         print("Triggered Word:", word)
+    #         await asyncio.sleep(5)
+    #         await warn_message.delete()
+    #         break
 
     urls = re.findall(r"(?:https?://)?[\w/.-]+(?:\.[\w/.-]+)+", message.text)
 
@@ -107,13 +115,7 @@ async def filter_messages(client, message):
             socket.gaierror,
             requests.exceptions.Timeout,
         ):
-            await message.delete()
-            warn_message = await app.send_message(
-                message.chat.id,
-                f"**WARNING:** User {message.from_user.mention} sent a message containing a link **which isn't accessible(maybe dead?)** and as such their message has been deleted, If you think this is a mistake please report to Group Administrators.\n\n__This message will be deleted in 5s__",
-            )
-            await asyncio.sleep(5)
-            await warn_message.delete()
+            break
 
 
 app.run()
