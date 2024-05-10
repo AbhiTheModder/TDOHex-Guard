@@ -97,13 +97,13 @@ async def filter_messages(client, message):
                 if LOG_CHANNEL is not None:
                     await client.send_message(
                         chat_id=int(LOG_CHANNEL),
-                        text=f"User {message.from_user.mention} with id `{message.from_user.id}` sent a message containing a banned word or a link which seems to be fraudulant and their message has been deleted in the group. Below is the message which he/she sent.",
+                        text=f"User {message.from_user.mention} with id `{message.from_user.id}` sent a message containing a link which seems to be fraudulant and their message has been deleted in the group. Below is the message which he/she sent.",
                     )
                     await message.forward(chat_id=LOG_CHANNEL)
                 await message.delete()
                 warn_message = await app.send_message(
                     message.chat.id,
-                    f"**WARNING:** User {message.from_user.mention} sent a message containing a banned word or a link which seems to be fraudulant and their message has been deleted.\n\n__This message will be deleted in 5s__",
+                    f"**WARNING:** User {message.from_user.mention} sent a message containing a link which seems to be fraudulant and their message has been deleted.\n\n__This message will be deleted in 5s__",
                 )
                 await asyncio.sleep(5)
                 await warn_message.delete()
